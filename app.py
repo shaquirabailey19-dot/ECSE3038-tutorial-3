@@ -26,14 +26,21 @@ def average_temp(devices):
     return total / len(devices)
 
 
-@app.get("/devices")
+@app.get("/devices")       # task 1:all devices
 def get_devices():
     return readings
 
-@app.get("/devices/hottest")
+@app.get("/devices/hottest")     # task 2:hottest device
 def get_hottest():
     return hottest(readings)
 
-@app.get("/devices/online")
+@app.get("/devices/online")         # task 3:online devices
 def get_online():
     return [d for d in readings if d["online"]]
+
+@app.get("/devices/{name}")
+def get_device(name: str):
+    for d in readings:
+        if d["name"] == name:
+            return d
+    raise HTTPException(status_code=404, detail="No device called " + name)
