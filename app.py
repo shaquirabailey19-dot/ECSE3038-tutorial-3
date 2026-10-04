@@ -45,11 +45,18 @@ def get_device(name: str):
             return d
     raise HTTPException(status_code=404, detail="No device called " + name)
 
-@app.get("/stats")
+@app.get("/stats")                      #task 5:average temperature
 def get_stats():
     return {"average_temperature": round(average_temp(readings), 2)}
 
-@app.post("/devices", status_code=201)
+@app.post("/devices", status_code=201)               #task 6:add device
 def create_device(device: dict):
     readings.append(device)
     return device
+
+@app.get("/rooms/{room}/devices")    #task 7:devices in a room
+def get_room_devices(room: str):
+    found = [d for d in readings if d["room"] == room]
+    if not found:
+        raise HTTPException(status_code=404, detail="No room called " + room)
+    return found
