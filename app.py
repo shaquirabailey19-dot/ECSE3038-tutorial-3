@@ -33,3 +33,7 @@ def get_devices():
 @app.get("/devices/hottest")
 def get_hottest():
     return hottest(readings)
+
+@app.get("/devices/online")
+def get_online():
+    return [d for d in readings if d["online"]]
