@@ -48,3 +48,8 @@ def get_device(name: str):
 @app.get("/stats")
 def get_stats():
     return {"average_temperature": round(average_temp(readings), 2)}
+
+@app.post("/devices", status_code=201)
+def create_device(device: dict):
+    readings.append(device)
+    return device
